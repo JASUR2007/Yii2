@@ -10,14 +10,17 @@ Route::post('/contacts/{user}/send-email', function (User $user) {
     $subject = "Hello from Laravel!";
     $message = "Dear {$user->first_name},\nThis is a test message from Laravel.";
 
-    Mail::to($user->email)->send(new ExchangeRateMail($message));
+    Mail::raw($message, function ($mail) use ($user, $subject) {
+        $mail->to($user->email)
+            ->subject($subject);
+    });
+
     return redirect()->route('contacts.index')->with('success', 'Email sent successfully to ' . $user->email);
 })->name('contacts.sendEmail');
-
 Route::get('/contacts', function () {
     $users = User::all();
     return view('contact_table', compact('users'));
-});
+})->name('contacts.index');
 
 Route::post('/contacts', function (Request $request) {
     $request->validate([
