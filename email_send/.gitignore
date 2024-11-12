@@ -1,3 +1,4 @@
+/email_send/app/Mail/ExchangeRateMail.php
 /node_modules
 /email_send/tests/TestCase.php
 /email_send/webpack.mix.js
